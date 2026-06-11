@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+f="${DICE_FORTUNE:-$(dirname -- "$(readlink -f -- "$0")")/../share/fortune}"
+if [ ! -e "$f.dat" ] || [ "$f" -nt "$f.dat" ]; then
+  strfile -s "$f" "$f.dat"
+fi
+exec fortune "$f"
