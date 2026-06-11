@@ -16,9 +16,8 @@ nix profile install .          # install `dice`
 ./build.sh                     # builds dist/dice, data embedded
 ```
 
-Copy `dist/dice` anywhere and run it. Needs `fortune` and `strfile`
-(package `fortune-mod` on most distros, `fortune` via brew) — the data
-is materialized to `$XDG_DATA_HOME/dice/` on first run.
+Copy `dist/dice` anywhere and run it. Stateless and self-contained:
+needs only bash and a POSIX awk (gawk, mawk, BSD awk, busybox).
 
 ## Curation
 

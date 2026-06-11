@@ -15,21 +15,29 @@
           ${pkgs.fortune}/bin/strfile -s $out/share/fortune $out/share/fortune.dat
         '';
 
-        default = pkgs.writeShellScriptBin "dice" ''
-          exec ${pkgs.fortune}/bin/fortune "''${DICE_FORTUNE:-${data}/share/fortune}"
-        '';
+        default = pkgs.symlinkJoin {
+          name = "dice";
+          paths = [
+            (pkgs.writeShellScriptBin "dice" (builtins.readFile ./bin/dice))
+          ];
+          buildInputs = [ pkgs.makeWrapper ];
+          postBuild = ''
+            wrapProgram $out/bin/dice \
+              --prefix PATH : ${nixpkgs.lib.makeBinPath [ pkgs.fortune ]} \
+              --set-default DICE_FORTUNE ${data}/share/fortune
+          '';
+        };
 
         dist = pkgs.runCommand "dice-dist" {} ''
           mkdir -p $out/bin
-          cd ${self}
-          ${pkgs.bash}/bin/bash build.sh $out/bin/dice
+          ${pkgs.bash}/bin/bash ${self}/build.sh $out/bin/dice
         '';
       });
 
       apps = forAll (pkgs: {
         default = {
           type = "app";
-          program = "${self.packages.${pkgs.system}.default}/bin/dice";
+          program = "${self.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/dice";
         };
       });
     };
