@@ -1,9 +1,6 @@
 # dice
 
-A hand-curated fortune file — Le Guin to Lacan, Bernkastel to Bayes,
-KJV to Pokédex — rolled by the upstream `fortune(6)`. This repo is the
-single source of truth for the data; the program is deliberately not
-reimplemented here.
+hand-curated fortune file
 
 ## Use
 
@@ -16,7 +13,7 @@ nix profile install .          # install `dice`
 ### Without Nix
 
 ```sh
-./build.sh                     # -> dist/dice, data embedded
+./build.sh                     # builds dist/dice, data embedded
 ```
 
 Copy `dist/dice` anywhere and run it. Needs `fortune` and `strfile`
